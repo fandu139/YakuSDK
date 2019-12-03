@@ -1,8 +1,13 @@
 {
+  "name": "yaku-sdk-181003",
+  "version": "1.0.0",
   "scripts": {
-    "generate": "graphql-codegen"
+    "generate": "graphql-codegen",
+    "build": "tsc index.ts --outDir dist",
+    "build-generate": "tsc generateFile.ts --outDir dist"
   },
   "dependencies": {
+    "@types/node": "^12.12.3",
     "graphql": "^14.5.8"
   },
   "devDependencies": {

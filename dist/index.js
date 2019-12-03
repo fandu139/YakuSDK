@@ -44,27 +44,17 @@ function main(dataSchema) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    client = new graphql_request_1.GraphQLClient('https://api.spacex.land/graphql/');
+                    client = new graphql_request_1.GraphQLClient(dataSchema.url);
                     sdk = getSdk_1.getSdk(client);
                     resultMethod = dataSchema.method;
                     resultQuery = dataSchema.query;
                     if (!(resultMethod === 'query')) return [3 /*break*/, 2];
                     return [4 /*yield*/, sdk.users(resultQuery)];
-                case 1: 
-                // const queryManipulateQuery = {
-                //   "limit": 1,
-                //   "nameEq": "fandu pratama Lakuana"
-                // }
-                return [2 /*return*/, _a.sent()];
+                case 1: return [2 /*return*/, _a.sent()];
                 case 2:
                     if (!(resultMethod === 'mutation')) return [3 /*break*/, 4];
                     return [4 /*yield*/, sdk.insert_users(resultQuery)];
-                case 3: 
-                // const queryManipulateMutation = {
-                //   "name": "fandu pratama Lakuana",
-                //   "rocket": "fandu pratama Lakuana"
-                // }
-                return [2 /*return*/, _a.sent()];
+                case 3: return [2 /*return*/, _a.sent()];
                 case 4: return [2 /*return*/];
             }
         });
@@ -75,11 +65,12 @@ var Sdk = /** @class */ (function () {
     }
     Sdk.configure = function (dataSchema) {
         var manipulateData = {
+            url: dataSchema.url,
             method: dataSchema.method,
             query: dataSchema.query
         };
-        return main(manipulateData)["catch"](function (e) {
-            console.error(e);
+        return main(manipulateData)["catch"](function (error) {
+            return error;
         });
     };
     return Sdk;

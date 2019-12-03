@@ -2,8 +2,9 @@ import { GraphQLClient } from 'graphql-request';
 import { getSdk } from './src/getSdk';
 import gql from 'graphql-tag';
 
-async function main(dataSchema: {method: string, query: Object}) {
-  const client = new GraphQLClient('https://api.spacex.land/graphql/');
+async function main(dataSchema: {url: string, method: string, query: Object}) {
+  // const client = new GraphQLClient('https://api.spacex.land/graphql/');
+  const client = new GraphQLClient(dataSchema.url);
   const sdk = getSdk(client);
 
   const resultMethod = dataSchema.method;
@@ -17,9 +18,10 @@ async function main(dataSchema: {method: string, query: Object}) {
 }
 
 class Sdk {
-  static configure(dataSchema: {method: string, query: Object}) {
+  static configure(dataSchema: {url: string, method: string, query: Object}) {
 
     const manipulateData = {
+      url: dataSchema.url,
       method : dataSchema.method,
       query : dataSchema.query
     }

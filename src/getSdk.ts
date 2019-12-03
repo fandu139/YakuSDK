@@ -1300,7 +1300,6 @@ export enum Users_Update_Column {
   Twitter = 'twitter'
 }
 
-
 /** expression to compare columns of type uuid. All fields are combined with logical 'AND'. */
 export type Uuid_Comparison_Exp = {
   _eq?: Maybe<Scalars['uuid']>,
@@ -1325,7 +1324,6 @@ export type Insert_UsersMutationVariables = {
   rocket?: Maybe<Scalars['String']>
 };
 
-
 export type Insert_UsersMutation = (
   { __typename?: 'Mutation' }
   & { insert_users: Maybe<(
@@ -1343,7 +1341,6 @@ export type UsersQueryVariables = {
   nameEq?: Maybe<Scalars['String']>
 };
 
-
 export type UsersQuery = (
   { __typename?: 'Query' }
   & { users: Array<(
@@ -1352,32 +1349,31 @@ export type UsersQuery = (
   )> }
 );
 
-
 export const Insert_UsersDocument = gql`
-    mutation insert_users($name: String, $rocket: String) {
-  insert_users(objects: {name: $name, rocket: $rocket}, on_conflict: {constraint: users_pkey, update_columns: id}) {
-    returning {
+  mutation insert_users($name: String, $rocket: String) {
+    insert_users(objects: {name: $name, rocket: $rocket}, on_conflict: {constraint: users_pkey, update_columns: id}) {
+      returning {
+        id
+        name
+        timestamp
+        rocket
+        twitter
+      }
+      affected_rows
+    }
+  }`;
+
+export const UsersDocument = gql`
+  query users($limit: Int, $nameEq: String) {
+    users(limit: $limit, where: {name: {_eq: $nameEq}}) {
+      rocket
+      timestamp
+      twitter
       id
       name
-      timestamp
-      rocket
-      twitter
     }
-    affected_rows
-  }
-}
-    `;
-export const UsersDocument = gql`
-    query users($limit: Int, $nameEq: String) {
-  users(limit: $limit, where: {name: {_eq: $nameEq}}) {
-    rocket
-    timestamp
-    twitter
-    id
-    name
-  }
-}
-    `;
+  }`;
+
 export function getSdk(client: GraphQLClient) {
   return {
     insert_users(variables?: Insert_UsersMutationVariables): Promise<Insert_UsersMutation> {

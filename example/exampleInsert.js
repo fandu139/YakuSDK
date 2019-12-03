@@ -1,7 +1,8 @@
-const Sdk = require('../index.js')
+const Sdk = require('../dist/index.js')
 
 async function checkData(){
     const apa = await Sdk.configure({
+      url: 'https://api.spacex.land/graphql/',
       method: 'mutation',
       query: 
         {
