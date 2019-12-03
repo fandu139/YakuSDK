@@ -1,7 +1,7 @@
-const generateFileSchema = require('../dist/generateFile.js')
+const generateFileSchema = require('../dist/index.js')
 
 async function generate(){
-  const apa = await generateFileSchema.generateFile({
+  const result = await generateFileSchema.generateFile({
     createFile: `pokemon`,
     method: `query`,
     dataFile: 
@@ -15,7 +15,7 @@ async function generate(){
       }
     }`
   });
-  console.log(apa)
+  console.log(result)
 }
 
 generate();

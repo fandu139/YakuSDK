@@ -38,6 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 var graphql_request_1 = require("graphql-request");
 var getSdk_1 = require("./src/getSdk");
+var fs = require('fs');
 function main(dataSchema) {
     return __awaiter(this, void 0, void 0, function () {
         var client, sdk, resultMethod, resultQuery;
@@ -73,6 +74,16 @@ var Sdk = /** @class */ (function () {
             return error;
         });
     };
+    Sdk.generateFile = function (generate) {
+        var filename = generate.createFile + "." + generate.method;
+        // writeFile function with filename, content and callback function
+        fs.writeFile('src/graphql/' + filename + '.graphql', generate.dataFile, function (err) {
+            if (err)
+                throw err;
+            console.log('File is created successfully.');
+        });
+    };
     return Sdk;
 }());
 exports.configure = Sdk.configure;
+exports.generateFile = Sdk.generateFile;
