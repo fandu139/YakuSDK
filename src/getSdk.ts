@@ -1300,6 +1300,7 @@ export enum Users_Update_Column {
   Twitter = 'twitter'
 }
 
+
 /** expression to compare columns of type uuid. All fields are combined with logical 'AND'. */
 export type Uuid_Comparison_Exp = {
   _eq?: Maybe<Scalars['uuid']>,
@@ -1319,68 +1320,151 @@ export type Volume = {
   cubic_meters?: Maybe<Scalars['Int']>,
 };
 
-export type Insert_UsersMutationVariables = {
-  name?: Maybe<Scalars['String']>,
-  rocket?: Maybe<Scalars['String']>
-};
+export type Insert_UsersMutationVariables = {};
+
 
 export type Insert_UsersMutation = (
   { __typename?: 'Mutation' }
   & { insert_users: Maybe<(
     { __typename?: 'users_mutation_response' }
-    & Pick<Users_Mutation_Response, 'affected_rows'>
     & { returning: Array<(
       { __typename?: 'users' }
-      & Pick<Users, 'id' | 'name' | 'timestamp' | 'rocket' | 'twitter'>
+      & Pick<Users, 'id' | 'name' | 'rocket' | 'timestamp' | 'twitter'>
     )> }
   )> }
 );
 
-export type UsersQueryVariables = {
-  limit?: Maybe<Scalars['Int']>,
-  nameEq?: Maybe<Scalars['String']>
-};
+export type LaunchesPastQueryVariables = {};
 
-export type UsersQuery = (
+
+export type LaunchesPastQuery = (
   { __typename?: 'Query' }
-  & { users: Array<(
-    { __typename?: 'users' }
-    & Pick<Users, 'rocket' | 'timestamp' | 'twitter' | 'id' | 'name'>
+  & { launchesPast: Maybe<Array<Maybe<(
+    { __typename?: 'Launch' }
+    & Pick<Launch, 'mission_name' | 'launch_date_local'>
+    & { launch_site: Maybe<(
+      { __typename?: 'LaunchSite' }
+      & Pick<LaunchSite, 'site_name_long'>
+    )>, links: Maybe<(
+      { __typename?: 'LaunchLinks' }
+      & Pick<LaunchLinks, 'article_link' | 'video_link'>
+    )>, rocket: Maybe<(
+      { __typename?: 'LaunchRocket' }
+      & Pick<LaunchRocket, 'rocket_name'>
+      & { first_stage: Maybe<(
+        { __typename?: 'LaunchRocketFirstStage' }
+        & { cores: Maybe<Array<Maybe<(
+          { __typename?: 'LaunchRocketFirstStageCore' }
+          & Pick<LaunchRocketFirstStageCore, 'flight'>
+          & { core: Maybe<(
+            { __typename?: 'Core' }
+            & Pick<Core, 'reuse_count' | 'status'>
+          )> }
+        )>>> }
+      )>, second_stage: Maybe<(
+        { __typename?: 'LaunchRocketSecondStage' }
+        & { payloads: Maybe<Array<Maybe<(
+          { __typename?: 'Payload' }
+          & Pick<Payload, 'payload_type' | 'payload_mass_kg' | 'payload_mass_lbs'>
+        )>>> }
+      )> }
+    )>, ships: Maybe<Array<Maybe<(
+      { __typename?: 'Ship' }
+      & Pick<Ship, 'name' | 'home_port' | 'image'>
+    )>>> }
+  )>>> }
+);
+
+export type Update_UsersMutationVariables = {};
+
+
+export type Update_UsersMutation = (
+  { __typename?: 'Mutation' }
+  & { update_users: Maybe<(
+    { __typename?: 'users_mutation_response' }
+    & { returning: Array<(
+      { __typename?: 'users' }
+      & Pick<Users, 'id' | 'name' | 'rocket' | 'timestamp' | 'twitter'>
+    )> }
   )> }
 );
 
-export const Insert_UsersDocument = gql`
-  mutation insert_users($name: String, $rocket: String) {
-    insert_users(objects: {name: $name, rocket: $rocket}, on_conflict: {constraint: users_pkey, update_columns: id}) {
-      returning {
-        id
-        name
-        timestamp
-        rocket
-        twitter
-      }
-      affected_rows
-    }
-  }`;
 
-export const UsersDocument = gql`
-  query users($limit: Int, $nameEq: String) {
-    users(limit: $limit, where: {name: {_eq: $nameEq}}) {
+export const Insert_UsersDocument = gql`
+    mutation insert_users {
+  insert_users(objects: {name: "Azkia Aisyah Lakuana", rocket: "child"}) {
+    returning {
+      id
+      name
       rocket
       timestamp
       twitter
+    }
+  }
+}
+    `;
+export const LaunchesPastDocument = gql`
+    query launchesPast {
+  launchesPast(limit: 1) {
+    mission_name
+    launch_date_local
+    launch_site {
+      site_name_long
+    }
+    links {
+      article_link
+      video_link
+    }
+    rocket {
+      rocket_name
+      first_stage {
+        cores {
+          flight
+          core {
+            reuse_count
+            status
+          }
+        }
+      }
+      second_stage {
+        payloads {
+          payload_type
+          payload_mass_kg
+          payload_mass_lbs
+        }
+      }
+    }
+    ships {
+      name
+      home_port
+      image
+    }
+  }
+}
+    `;
+export const Update_UsersDocument = gql`
+    mutation update_users {
+  update_users(where: {name: {_eq: "Azkia Fandu Aisyah Lakuana"}, rocket: {_eq: "child"}}, _set: {name: "Azkia Fandu Aisyah Lakuana"}) {
+    returning {
       id
       name
+      rocket
+      timestamp
+      twitter
     }
-  }`;
-
+  }
+}
+    `;
 export function getSdk(client: GraphQLClient) {
   return {
     insert_users(variables?: Insert_UsersMutationVariables): Promise<Insert_UsersMutation> {
       return client.request<Insert_UsersMutation>(print(Insert_UsersDocument), variables);
     },
-    users(variables?: UsersQueryVariables): Promise<UsersQuery> {
-      return client.request<UsersQuery>(print(UsersDocument), variables);
+    launchesPast(variables?: LaunchesPastQueryVariables): Promise<LaunchesPastQuery> {
+      return client.request<LaunchesPastQuery>(print(LaunchesPastDocument), variables);
+    },
+    update_users(variables?: Update_UsersMutationVariables): Promise<Update_UsersMutation> {
+      return client.request<Update_UsersMutation>(print(Update_UsersDocument), variables);
     }
   };
 }

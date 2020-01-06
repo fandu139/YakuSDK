@@ -6,8 +6,8 @@ async function checkData(){
     method: 'query',
     query: 
       {
-        "limit": 1,
-        "nameEq": "Azkia Aisyah Lakuana"
+        name: "Azkia Aisyah Pratama Lakuana",
+        child: "child"
       }
   });
   console.log(result)

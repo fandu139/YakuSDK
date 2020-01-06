@@ -39,6 +39,31 @@ exports.__esModule = true;
 var graphql_request_1 = require("graphql-request");
 var getSdk_1 = require("./src/getSdk");
 var fs = require('fs');
+var cli_1 = require("@graphql-codegen/cli");
+function mainGenerateSchema(dataSchema) {
+    return __awaiter(this, void 0, void 0, function () {
+        var url;
+        var _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    url = dataSchema.url;
+                    return [4 /*yield*/, cli_1.generate({
+                            schema: url,
+                            documents: 'src/graphql/**/*.graphql',
+                            generates: (_a = {},
+                                _a[process.cwd() + '/src/getSdk.ts'] = {
+                                    plugins: ['typescript', 'typescript-operations', 'typescript-graphql-request']
+                                },
+                                _a)
+                        }, true)];
+                case 1:
+                    _b.sent();
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
 function main(dataSchema) {
     return __awaiter(this, void 0, void 0, function () {
         var client, sdk, resultMethod, resultQuery;
@@ -50,13 +75,17 @@ function main(dataSchema) {
                     resultMethod = dataSchema.method;
                     resultQuery = dataSchema.query;
                     if (!(resultMethod === 'query')) return [3 /*break*/, 2];
-                    return [4 /*yield*/, sdk.users(resultQuery)];
+                    return [4 /*yield*/, sdk.launchesPast(resultQuery)];
                 case 1: return [2 /*return*/, _a.sent()];
                 case 2:
                     if (!(resultMethod === 'mutation')) return [3 /*break*/, 4];
                     return [4 /*yield*/, sdk.insert_users(resultQuery)];
                 case 3: return [2 /*return*/, _a.sent()];
-                case 4: return [2 /*return*/];
+                case 4:
+                    if (!(resultMethod === 'mutationUpdate')) return [3 /*break*/, 6];
+                    return [4 /*yield*/, sdk.update_users(resultQuery)];
+                case 5: return [2 /*return*/, _a.sent()];
+                case 6: return [2 /*return*/];
             }
         });
     });
@@ -74,6 +103,14 @@ var Sdk = /** @class */ (function () {
             return error;
         });
     };
+    Sdk.generateSchema = function (dataSchema) {
+        var manipulateData = {
+            url: dataSchema.url
+        };
+        return mainGenerateSchema(manipulateData)["catch"](function (error) {
+            return error;
+        });
+    };
     Sdk.generateFile = function (generate) {
         var filename = generate.createFile + "." + generate.method;
         // writeFile function with filename, content and callback function
@@ -86,4 +123,5 @@ var Sdk = /** @class */ (function () {
     return Sdk;
 }());
 exports.configure = Sdk.configure;
+exports.generateSchema = Sdk.generateSchema;
 exports.generateFile = Sdk.generateFile;

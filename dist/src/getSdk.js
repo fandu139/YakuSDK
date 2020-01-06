@@ -64,17 +64,21 @@ var Users_Update_Column;
     /** column name */
     Users_Update_Column["Twitter"] = "twitter";
 })(Users_Update_Column = exports.Users_Update_Column || (exports.Users_Update_Column = {}));
-exports.Insert_UsersDocument = graphql_tag_1["default"](templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  mutation insert_users($name: String, $rocket: String) {\n    insert_users(objects: {name: $name, rocket: $rocket}, on_conflict: {constraint: users_pkey, update_columns: id}) {\n      returning {\n        id\n        name\n        timestamp\n        rocket\n        twitter\n      }\n      affected_rows\n    }\n  }"], ["\n  mutation insert_users($name: String, $rocket: String) {\n    insert_users(objects: {name: $name, rocket: $rocket}, on_conflict: {constraint: users_pkey, update_columns: id}) {\n      returning {\n        id\n        name\n        timestamp\n        rocket\n        twitter\n      }\n      affected_rows\n    }\n  }"])));
-exports.UsersDocument = graphql_tag_1["default"](templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  query users($limit: Int, $nameEq: String) {\n    users(limit: $limit, where: {name: {_eq: $nameEq}}) {\n      rocket\n      timestamp\n      twitter\n      id\n      name\n    }\n  }"], ["\n  query users($limit: Int, $nameEq: String) {\n    users(limit: $limit, where: {name: {_eq: $nameEq}}) {\n      rocket\n      timestamp\n      twitter\n      id\n      name\n    }\n  }"])));
+exports.Insert_UsersDocument = graphql_tag_1["default"](templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    mutation insert_users {\n  insert_users(objects: {name: \"Azkia Aisyah Lakuana\", rocket: \"child\"}) {\n    returning {\n      id\n      name\n      rocket\n      timestamp\n      twitter\n    }\n  }\n}\n    "], ["\n    mutation insert_users {\n  insert_users(objects: {name: \"Azkia Aisyah Lakuana\", rocket: \"child\"}) {\n    returning {\n      id\n      name\n      rocket\n      timestamp\n      twitter\n    }\n  }\n}\n    "])));
+exports.LaunchesPastDocument = graphql_tag_1["default"](templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n    query launchesPast {\n  launchesPast(limit: 1) {\n    mission_name\n    launch_date_local\n    launch_site {\n      site_name_long\n    }\n    links {\n      article_link\n      video_link\n    }\n    rocket {\n      rocket_name\n      first_stage {\n        cores {\n          flight\n          core {\n            reuse_count\n            status\n          }\n        }\n      }\n      second_stage {\n        payloads {\n          payload_type\n          payload_mass_kg\n          payload_mass_lbs\n        }\n      }\n    }\n    ships {\n      name\n      home_port\n      image\n    }\n  }\n}\n    "], ["\n    query launchesPast {\n  launchesPast(limit: 1) {\n    mission_name\n    launch_date_local\n    launch_site {\n      site_name_long\n    }\n    links {\n      article_link\n      video_link\n    }\n    rocket {\n      rocket_name\n      first_stage {\n        cores {\n          flight\n          core {\n            reuse_count\n            status\n          }\n        }\n      }\n      second_stage {\n        payloads {\n          payload_type\n          payload_mass_kg\n          payload_mass_lbs\n        }\n      }\n    }\n    ships {\n      name\n      home_port\n      image\n    }\n  }\n}\n    "])));
+exports.Update_UsersDocument = graphql_tag_1["default"](templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n    mutation update_users {\n  update_users(where: {name: {_eq: \"Azkia Fandu Aisyah Lakuana\"}, rocket: {_eq: \"child\"}}, _set: {name: \"Azkia Fandu Aisyah Lakuana\"}) {\n    returning {\n      id\n      name\n      rocket\n      timestamp\n      twitter\n    }\n  }\n}\n    "], ["\n    mutation update_users {\n  update_users(where: {name: {_eq: \"Azkia Fandu Aisyah Lakuana\"}, rocket: {_eq: \"child\"}}, _set: {name: \"Azkia Fandu Aisyah Lakuana\"}) {\n    returning {\n      id\n      name\n      rocket\n      timestamp\n      twitter\n    }\n  }\n}\n    "])));
 function getSdk(client) {
     return {
         insert_users: function (variables) {
             return client.request(graphql_1.print(exports.Insert_UsersDocument), variables);
         },
-        users: function (variables) {
-            return client.request(graphql_1.print(exports.UsersDocument), variables);
+        launchesPast: function (variables) {
+            return client.request(graphql_1.print(exports.LaunchesPastDocument), variables);
+        },
+        update_users: function (variables) {
+            return client.request(graphql_1.print(exports.Update_UsersDocument), variables);
         }
     };
 }
 exports.getSdk = getSdk;
-var templateObject_1, templateObject_2;
+var templateObject_1, templateObject_2, templateObject_3;
