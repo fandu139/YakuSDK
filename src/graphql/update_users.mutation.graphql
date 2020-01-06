@@ -1,0 +1,11 @@
+mutation update_users {
+      update_users(where: {name: {_eq: "Azkia Fandu Aisyah Lakuana"}, rocket: {_eq: "child"}}, _set: {name: "Azkia Fandu Aisyah Lakuana"}) {
+        returning {
+          id
+          name
+          rocket
+          timestamp
+          twitter
+        }
+      }
+    }

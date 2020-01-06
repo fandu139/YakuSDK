@@ -21,7 +21,6 @@ async function mainGenerateSchema(dataSchema: {url: string}) {
 }
 
 async function main(dataSchema: {url: string, method: string, query: Object}) {
-  // const client = new GraphQLClient('https://api.spacex.land/graphql/');
   const client = new GraphQLClient(dataSchema.url);
   const sdk = getSdk(client);
 
@@ -29,9 +28,11 @@ async function main(dataSchema: {url: string, method: string, query: Object}) {
   const resultQuery = dataSchema.query;
 
   if (resultMethod === 'query') {
-    return await sdk.users(resultQuery);
+    return await sdk.launchesPast(resultQuery);
   } else if (resultMethod === 'mutation') {
     return await sdk.insert_users(resultQuery);
+  } else if (resultMethod === 'mutationUpdate') {
+    return await sdk.update_users(resultQuery);
   }
 }
 

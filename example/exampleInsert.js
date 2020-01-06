@@ -6,7 +6,7 @@ async function checkData(){
       method: 'mutation',
       query: 
         {
-          "name": "Azkia Aisyah Lakuana",
+          "name": "Azkia Aisyah Pratama Lakuana",
           "rocket": "child"
         }
     });
